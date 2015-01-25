@@ -8,6 +8,11 @@ var tfs = new function () {
 	var timerId = 0;
 
 	/**
+	 * Cache of the last feed to be retrieved
+	 */
+	this.data = null;
+
+	/**
 	 * Make a call to TFS online to get the latest changeset information
 	 * @return {null}
 	 */
@@ -45,6 +50,7 @@ var tfs = new function () {
 	 */
 	this.stop = function () {
  		window.clearInterval(timerId);
+ 		showOffline();
 	};
 
 	/**
@@ -55,10 +61,13 @@ var tfs = new function () {
 	 */
 	var checkLatestFeed = function (data) {
 		var checkIn = data.value[0];
-		if (tfs.data === null || checkIn.changesetId > preferences.get("changeset")) {
+		if (checkIn.changesetId > preferences.get("changeset")) {
 			showUnreadItems();
 			showNotifications(checkIn);
 		};
+
+		//set the cache
+		tfs.data = data;
 
 		//update the preferences
 		preferences.set("changeset", checkIn.changesetId);

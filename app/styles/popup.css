@@ -1,5 +1,41 @@
 
 body {
 	width:400px;
+	padding: 0px;
+	margin: 0px;
 }
 
+.clear {
+	clear: both;
+}
+
+img {
+	width: 80px;
+	height: 80px;
+	margin: 0 5px 0 0;
+	border: none;
+	float: left;
+}
+
+.checkin {
+	display: none;
+}
+
+.checkin .detail {
+	float: left;
+	padding: 8px;
+}
+
+.checkin .detail .title {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.checkin .detail .date {
+	color: #666;
+	font-size: 12px;
+}
+
+.checkin .detail .message {
+	font-size: 12px;
+}	
