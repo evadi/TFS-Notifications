@@ -25,12 +25,10 @@ var preferences = new function () {
 	};
 
 	/**
-	 * Sets a preference using a key. If the key already exists it will 
-	 * update the value
-	 * @param {string} key Name of the preference
-	 * @param {object} value Value to store as the preference
+	 * Sets all preferences
+	 * @param {object} value All preferences
 	 */
-	this.set = function (value) {
+	this.setAll = function (value) {
 		var def = $.Deferred();
 		chrome.storage.local.set({ "preferences": value }, function () {
 			preferences.cache = value;
@@ -38,6 +36,17 @@ var preferences = new function () {
 		});
 
 		return def.promise();
+	};
+
+	/**
+	 * Sets a preference using a key
+	 * @param {string} key Name of the preference
+	 * @param {object} value Value to store as the preference
+	 */
+	this.set = function (key, value) {
+		var all = this.getAll();
+		all[key] = value;
+		return this.setAll(all);
 	};
 
 	/**
@@ -55,12 +64,12 @@ var preferences = new function () {
 				//return some defaults;
 				var defaults = {
 					domain: "https://orchidsoft.visualstudio.com/DefaultCollection/_apis/tfvc/changesets?api-version=1.0&$top=5",
-					interval: "60",
+					interval: 60,
 					notificationUsers: "",
-					changset: "0"
+					changset: 0
 				};
 				preferences.cache = defaults;
-				preferences.set(defaults);
+				preferences.setAll(defaults);
 			}
 
 			def.resolve();

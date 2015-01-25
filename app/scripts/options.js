@@ -25,9 +25,9 @@ $(function () {
 
 		var data = {};
 		data.domain = "";
-		data.interval = "0";
+		data.interval = 0;
 		data.notificationUsers = "";
-		data.changeset = "0";
+		data.changeset = 0;
 
 		var domain = $("#domain").val();
 		if (domain !== ""){
@@ -37,7 +37,7 @@ $(function () {
 
 		var interval = $("#interval").val();
 		if (interval !== "") {	
-			data.interval = interval; 	
+			data.interval = parseInt(interval) * 1000; 	
 		}
 
 		var notificationUsers = $("#notificationUsers").val();
@@ -47,10 +47,15 @@ $(function () {
 
 		var changeset = $("#changeset").val();
 		if (changeset !== "") {
-			data.changeset = changeset;
+			data.changeset = parseInt(changeset);
 		}
 
 		controller.updatePreferences(data);
+
+		$("#saved").html("Saved");
+		window.setTimeout(function () {
+			$("#saved").html("");
+		}, 5000);
 
 	});
 
@@ -65,7 +70,7 @@ $(function () {
 		var domain = String.format("{0}//{1}", domainParts[0], domainParts[2]);
 
 		$("#domain").val(domain);
-		$("#interval").val(preferences.interval);
+		$("#interval").val(preferences.interval / 1000);
 		$("#notificationUsers").val(preferences.notificationUsers);
 		$("#changeset").val(preferences.changeset);
 

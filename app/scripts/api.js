@@ -5,7 +5,7 @@
  */
 var tfs = new function () {
 
-	this.data = {};
+	var timerId = 0;
 
 	/**
 	 * Make a call to TFS online to get the latest changeset information
@@ -18,7 +18,6 @@ var tfs = new function () {
 
 		$.get(domain)
 			.done(function(data) {
-				tfs.data = data;
 				console.log(data);
 				showOnline("on");
 				checkLatestFeed(data);
@@ -30,11 +29,22 @@ var tfs = new function () {
 	};
 
 	/**
+	 * Starts the timer to load the feed
+	 */
+	this.start = function () {
+		tfs.load();
+
+		window.setInterval(function () {
+			tfs.load();
+		}, preferences.get("interval"));
+	};
+
+	/**
 	 * Stops the api runner
 	 * @return {null}
 	 */
 	this.stop = function () {
-
+ 		window.clearInterval(timerId);
 	};
 
 	/**
@@ -44,8 +54,14 @@ var tfs = new function () {
 	 * @return {null}
 	 */
 	var checkLatestFeed = function (data) {
-		showUnreadItems();
-		showNotification(data);
+		var checkIn = data.value[0];
+		if (tfs.data === null || checkIn.changesetId > preferences.get("changeset")) {
+			showUnreadItems();
+			showNotifications(checkIn);
+		};
+
+		//update the preferences
+		preferences.set("changeset", checkIn.changesetId);
 	};
 
 	/**
@@ -75,24 +91,49 @@ var tfs = new function () {
 	/**
 	 * Show a notification
 	 */
-	var showNotification = function (data) {
+	var showNotifications = function (checkIn) {
 		
-		chrome.notifications.getPermissionLevel(function (level) {
-			if (level == "granted"){
-				var checkIn = data.value[1];
-				var options = {
-					type: "basic",
-					iconUrl: checkIn.checkedInBy.imageUrl,
-					title: "Check-in by " + checkIn.checkedInBy.displayName,
-					message: checkIn.comment ? checkIn.comment : "No comment made"
-				};
+		//check to see if the latest checkin has been carried out by
+		//someone in the notification users list
+		var csvUsers = preferences.get("notificationUsers");
+		if (csvUsers !== undefined || csvUsers !== "") {
+			var users = csvUsers.split(',');
+			var checkInName = checkIn.checkedInBy.displayName.toLowerCase();
+			var match = contains(checkInName, users);
 
-				chrome.notifications.create("", options, function () {
+			if (match) {
+				chrome.notifications.getPermissionLevel(function (level) {
+					if (level == "granted"){
+						var options = {
+							type: "basic",
+							iconUrl: checkIn.checkedInBy.imageUrl,
+							title: "Check-in by " + checkIn.checkedInBy.displayName,
+							message: checkIn.comment ? checkIn.comment : "No comment made"
+						};
 
-				});		
+						chrome.notifications.create("", options, function () {
+
+						});		
+					}
+				});
 			}
-		});
+		}
 		
 	};
+
+	/**
+	 * Allows checking if an item exists in a javascript object
+	 * @param  {string} item  Item to check for
+	 * @param  {object} obj Object to check in
+	 * @return {bool} True if item exists, otherwise false
+	 */
+	function contains(item, obj) {
+	    for (var i = 0; i < obj.length; i++) {
+	        if (obj[i].trim() === item.trim()) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
 	
 };

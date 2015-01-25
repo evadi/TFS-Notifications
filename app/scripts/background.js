@@ -13,7 +13,7 @@ function start() {
 	preferences.load()
 		.done(function () {
 			//start the timer. Timer interval based on user preference
-			tfs.load();
+			tfs.start();
 		});
 
 }
@@ -33,5 +33,8 @@ function getPreferences() {
  */
 function updatePreferences(pref) {
 	tfs.stop();
-	preferences.set(pref);
+	preferences.setAll(pref)
+		.done(function () {
+			tfs.start();
+		});
 }

@@ -6,20 +6,32 @@
         <!-- bower:css -->
         <!-- endbower -->
         <!-- endbuild -->
-        <!-- build:css styles/main.css -->
-        <link href="styles/main.css" rel="stylesheet">
+        <!-- build:css styles/popup.css -->
+        <link href="styles/popup.css" rel="stylesheet">
         <!-- endbuild -->
-    </head>
-    <body>
-        <h1>'Allo, 'Allo! Popup</h1>
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <!-- endbower -->
         <!-- endbuild -->
 
+        <!-- build:js scripts/jquery.js -->
+        <script src="scripts/jquery.js"></script>
+        <!-- endbuild -->
+
         <!-- build:js scripts/popup.js -->
         <script src="scripts/popup.js"></script>
         <!-- endbuild -->
+    </head>
+    <body>
+        <div class="checkin">
+            <div class="photo" id="user-photo"></div>
+            <div class="detail">
+                <div class="title">David Ferguson</div>
+                <div class="date">@ 13:50 25th Jan 2015</div>
+                <div class="message">Something about nothing</div>
+            </div>
+        </div>
+        
     </body>
 </html>
