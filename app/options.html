@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:css styles/main.css -->
+        <link href="styles/main.css" rel="stylesheet">
+        <!-- endbuild -->
+
+        <!-- build:js scripts/jquery.js -->
+        <script src="scripts/jquery.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js scripts/options.js -->
+        <script src="scripts/options.js"></script>
+        <!-- endbuild -->
+    </head>
+    <body>
+        <h1>Options</h1>
+                
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <div class="row">
+            <input id="domain" type="text" placeholder="Specify the full API domain">
+        </div>
+
+        <div class="row">
+            <input id="interval" type="text" placeholder="Interval in seconds">
+        </div>
+
+        <div class="row">
+            <input id="changeset" type="text" placeholder="Specify the last changeset number you saw">
+        </div>
+
+        <div class="row">
+            <textarea id="notificationUsers" placeholder="Specify names of users who will cause a notification when they check-in (comma separated)" cols="20" rows="5"></textarea>
+        </div>
+
+        <div class="row">
+            <button id="save" type="submit">Save</button>
+        </div>
+    </body>
+</html>
