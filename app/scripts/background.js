@@ -1,6 +1,5 @@
 'use strict';
 
-//chrome.storage.local.clear();
 start();
 
 /**
@@ -37,9 +36,13 @@ function getPreferences() {
  * @return {null}
  */
 function updatePreferences(pref) {
+	//store the current active preference
+	var active = tfs.isOnline;
+
 	tfs.stop(false);
 	preferences.setAll(pref)
 		.done(function () {
+			tfs.isOnline = active;
 			tfs.start(false);
 		});
 }

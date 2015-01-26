@@ -12,7 +12,7 @@ var preferences = new function () {
 	 * @return {object} All preferences
 	 */
 	this.getAll = function () {
-		return preferences.cache;
+		return preferences.cache.preferences;
 	};
 
 	/**
@@ -21,7 +21,7 @@ var preferences = new function () {
 	 * @return {object} Value of the preference
 	 */
 	this.get = function (key) {
-		return preferences.cache[key];
+		return preferences.cache.preferences[key];
 	};
 
 	/**
@@ -30,8 +30,10 @@ var preferences = new function () {
 	 */
 	this.setAll = function (value) {
 		var def = $.Deferred();
-		chrome.storage.sync.set({ "preferences": value }, function () {
-			preferences.cache = value;
+		var data = {};
+		data["preferences"] = value;
+		chrome.storage.sync.set(data, function () {
+			preferences.cache = data;
 			def.resolve();
 		});
 
@@ -58,7 +60,7 @@ var preferences = new function () {
 
 		chrome.storage.sync.get("preferences", function (result) {
 			if (result.preferences) {
-				preferences.cache = result.preferences;
+				preferences.cache = result;
 			}
 			else {
 				//return some defaults;
@@ -69,7 +71,7 @@ var preferences = new function () {
 					changeset: 0,
 					active: true
 				};
-				preferences.cache = defaults;
+				preferences.cache.preferences = defaults;
 				preferences.setAll(defaults);
 			}
 
@@ -80,14 +82,3 @@ var preferences = new function () {
 	};
 
 };
-
-/**
- * Listens for changes to preferences and saves them to the cache
- */
-chrome.storage.onChanged.addListener(function (changes, namespace) {
-
-	for (var key in changes) {
-		preferences.cache[key] = changes[key].newValue;
-	}
-
-});

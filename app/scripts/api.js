@@ -38,7 +38,6 @@ var tfs = new function () {
 		$.get(domain)
 			.done(function(data) {
 				errorCount = 0;
-				console.log(data);
 				showOnline("on");
 				checkLatestFeed(data);
 			})
@@ -177,7 +176,7 @@ var tfs = new function () {
 						};
 
 						chrome.notifications.create("", options, function (notificationId) {
-							var url = checkIn.url.replace("_apis/tfvc", "_versionControl");
+							var url = checkIn.url.replace("_apis/tfvc", "_versionControl").replace("changesets", "changeset");
 							tfs.notifications[notificationId] = { changesetUrl: url };
 						});		
 					}

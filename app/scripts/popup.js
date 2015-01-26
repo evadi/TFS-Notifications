@@ -75,7 +75,7 @@ $(function () {
 			$("#user-name").html(checkin.checkedInBy.displayName);
 			$("#checkin-date").html(displayDate);
 			$("#checkin-comment").html(checkin.comment);
-			$("#changeset").attr("href", checkin.url.replace("_apis/tfvc", "_versionControl"));
+			$("#changeset").attr("href", checkin.url.replace("_apis/tfvc", "_versionControl").replace("changesets", "changeset"));
 
 			$(".checkin").show();
 		}
