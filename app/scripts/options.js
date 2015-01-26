@@ -28,6 +28,7 @@ $(function () {
 		data.interval = 0;
 		data.notificationUsers = "";
 		data.changeset = 0;
+		data.active = controller.getPreferences().active;
 
 		var domain = $("#domain").val();
 		if (domain !== ""){

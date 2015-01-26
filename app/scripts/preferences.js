@@ -30,7 +30,7 @@ var preferences = new function () {
 	 */
 	this.setAll = function (value) {
 		var def = $.Deferred();
-		chrome.storage.local.set({ "preferences": value }, function () {
+		chrome.storage.sync.set({ "preferences": value }, function () {
 			preferences.cache = value;
 			def.resolve();
 		});
@@ -56,7 +56,7 @@ var preferences = new function () {
 	this.load = function () {
 		var def = $.Deferred();
 
-		chrome.storage.local.get("preferences", function (result) {
+		chrome.storage.sync.get("preferences", function (result) {
 			if (result.preferences) {
 				preferences.cache = result.preferences;
 			}
@@ -64,9 +64,10 @@ var preferences = new function () {
 				//return some defaults;
 				var defaults = {
 					domain: "https://orchidsoft.visualstudio.com/DefaultCollection/_apis/tfvc/changesets?api-version=1.0&$top=5",
-					interval: 60,
-					notificationUsers: "",
-					changset: 0
+					interval: 60000,
+					notificationUsers: "cade hymer",
+					changeset: 0,
+					active: true
 				};
 				preferences.cache = defaults;
 				preferences.setAll(defaults);

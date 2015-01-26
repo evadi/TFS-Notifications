@@ -8,12 +8,17 @@ start();
  * @return {null}
  */
 function start() {
+	//perform a stop for good measure
+	tfs.stop();
 
 	//load preferences and wait before starting the application
 	preferences.load()
 		.done(function () {
+			//set the online setting based on the active preference
+			tfs.isOnline = preferences.get("active");
+
 			//start the timer. Timer interval based on user preference
-			tfs.start();
+			tfs.start(false);
 		});
 
 }
@@ -32,9 +37,9 @@ function getPreferences() {
  * @return {null}
  */
 function updatePreferences(pref) {
-	tfs.stop();
+	tfs.stop(false);
 	preferences.setAll(pref)
 		.done(function () {
-			tfs.start();
+			tfs.start(false);
 		});
 }

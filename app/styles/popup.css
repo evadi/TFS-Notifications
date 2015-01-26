@@ -3,6 +3,12 @@ body {
 	width:400px;
 	padding: 0px;
 	margin: 0px;
+	background-color: #efefef;
+}
+
+a, a:visited {
+	text-decoration: none;
+	color: #666;
 }
 
 .clear {
@@ -17,8 +23,13 @@ img {
 	float: left;
 }
 
+.no-data {
+	display: none;
+}
+
 .checkin {
 	display: none;
+	background-color: #fff;
 }
 
 .checkin .detail {
@@ -39,3 +50,37 @@ img {
 .checkin .detail .message {
 	font-size: 12px;
 }	
+
+.checkin .buttons {
+	clear: both;
+	border-top: 1px solid #eee;
+}
+
+.checkin .buttons a {
+	padding: 8px;
+	color: #666;
+	display: block;
+}
+
+.checkin .buttons a:hover {
+	background-color: #eee;
+}
+
+.options {
+	margin: 15px 0 0 0;
+}
+
+.options button {
+	background-color: #337ab7;
+	border: 1px solid #2e6da4;
+	border-radius: 3px;
+	width:100%;
+	padding: 8px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.options button:hover {
+	background-color: #286090;
+	border: 1px solid #204d74;
+}
