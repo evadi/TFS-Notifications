@@ -65,7 +65,7 @@ var preferences = new function () {
 				var defaults = {
 					domain: "https://orchidsoft.visualstudio.com/DefaultCollection/_apis/tfvc/changesets?api-version=1.0&$top=5",
 					interval: 60000,
-					notificationUsers: "cade hymer",
+					notificationUsers: "",
 					changeset: 0,
 					active: true
 				};
