@@ -65,7 +65,9 @@ var tfs = new function () {
 			tfs.load();
 
 			timerId = window.setInterval(function () {
-				tfs.load();
+				if (tfs.isOnline) {
+					tfs.load();
+				}
 			}, preferences.get("interval"));
 
 		}
