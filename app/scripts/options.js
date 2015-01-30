@@ -32,7 +32,7 @@ $(function () {
 
 		var domain = $("#domain").val();
 		if (domain !== ""){
-			domain += "/DefaultCollection/_apis/tfvc/changesets?api-version=1.0&$top=5";
+			domain += "/DefaultCollection/_apis/tfvc/changesets?api-version=1.0&$top=5&maxCommentLength=1000";
 			data.domain = domain;
 		}
 

@@ -65,7 +65,7 @@ var preferences = new function () {
 			else {
 				//return some defaults;
 				var defaults = {
-					domain: "https://orchidsoft.visualstudio.com/DefaultCollection/_apis/tfvc/changesets?api-version=1.0&$top=5",
+					domain: "https://orchidsoft.visualstudio.com/DefaultCollection/_apis/tfvc/changesets?api-version=1.0&$top=5&maxCommentLength=1000",
 					interval: 60000,
 					notificationUsers: "",
 					changeset: 0,
