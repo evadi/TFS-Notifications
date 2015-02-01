@@ -1,6 +1,4 @@
-'use strict';
-
-start();
+"use strict";
 
 /**
  * Starts the app running
@@ -28,7 +26,7 @@ function start() {
  */
 function getPreferences() {
 	return preferences.getAll();
-};
+}
 
 /**
  * Used by the options page to save preferences set by the user
@@ -46,3 +44,6 @@ function updatePreferences(pref) {
 			tfs.start(false);
 		});
 }
+
+//kick it all off
+start();

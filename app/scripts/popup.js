@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Extend String object to include a format options
@@ -6,13 +6,13 @@
  */
 String.format = function() {
   var s = arguments[0];
-  for (var i = 0; i < arguments.length - 1; i++) {       
-    var reg = new RegExp("\\{" + i + "\\}", "gm");             
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
     s = s.replace(reg, arguments[i + 1]);
   }
 
   return s;
-}
+};
 
 $(function () {
 
@@ -20,15 +20,11 @@ $(function () {
 	var tfs = controller.tfs;
 	var onlineToggle = $("#toggleOnline");
 
-	loadCheckin();
-	setOnlineToggle();
-	tfs.readItems();
-
 	$("#changeset").click(function (e) {
 		e.preventDefault();
 
 		var url = $(e.currentTarget).attr("href");
-		chrome.tabs.create({ url: url }, function(tab) {
+		chrome.tabs.create({ url: url }, function() {
 		});
 
 	});
@@ -48,12 +44,16 @@ $(function () {
 
 	});
 
+	/**
+	 * Change the text for the toggle online button based on
+	 * if the user is currently online or not
+	 */
 	function setOnlineToggle() {
 		if (tfs.isOnline) {
 			onlineToggle.html("Go offline");
 		}
 		else {
-			onlineToggle.html("Go online");	
+			onlineToggle.html("Go online");
 		}
 	}
 
@@ -67,11 +67,11 @@ $(function () {
 
 			var checkinDate = new Date(checkin.createdDate);
 
-			var displayDate = String.format("{0} @{1}", 
-				checkinDate.toDateString(), 
+			var displayDate = String.format("{0} @{1}",
+				checkinDate.toDateString(),
 				checkinDate.toLocaleTimeString());
 
-			$("#user-photo").attr("src", checkin.checkedInBy.imageUrl)
+			$("#user-photo").attr("src", checkin.checkedInBy.imageUrl);
 			$("#user-name").html(checkin.checkedInBy.displayName);
 			$("#checkin-date").html(displayDate);
 			$("#checkin-comment").html(checkin.comment);
@@ -85,5 +85,9 @@ $(function () {
 		}
 
 	}
+
+	loadCheckin();
+	setOnlineToggle();
+	tfs.readItems();
 
 });

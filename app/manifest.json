@@ -10,7 +10,7 @@
     "default_locale": "en",
     "background": {
         "scripts": [
-            "scripts/jquery.js",
+            "scripts/vendor/jquery.js",
             "scripts/preferences.js",
             "scripts/api.js",
             "scripts/chromereload.js",

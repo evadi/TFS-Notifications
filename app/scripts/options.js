@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Extend String object to include a format options
@@ -6,19 +6,17 @@
  */
 String.format = function() {
   var s = arguments[0];
-  for (var i = 0; i < arguments.length - 1; i++) {       
-    var reg = new RegExp("\\{" + i + "\\}", "gm");             
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
     s = s.replace(reg, arguments[i + 1]);
   }
 
   return s;
-}
+};
 
 $(function () {
 
 	var controller = chrome.extension.getBackgroundPage();
-
-	loadOptions();
 
 	$("#save").click(function (e) {
 		e.preventDefault();
@@ -37,8 +35,8 @@ $(function () {
 		}
 
 		var interval = $("#interval").val();
-		if (interval !== "") {	
-			data.interval = parseInt(interval) * 1000; 	
+		if (interval !== "") {
+			data.interval = parseInt(interval) * 1000;
 		}
 
 		var notificationUsers = $("#notificationUsers").val();
@@ -67,7 +65,7 @@ $(function () {
 
 		var preferences = controller.getPreferences();
 
-		var domainParts = preferences.domain.split('/');
+		var domainParts = preferences.domain.split("/");
 		var domain = String.format("{0}//{1}", domainParts[0], domainParts[2]);
 
 		$("#domain").val(domain);
@@ -76,5 +74,8 @@ $(function () {
 		$("#changeset").val(preferences.changeset);
 
 	}
+
+	//load options onto the page for editing
+	loadOptions();
 
 });

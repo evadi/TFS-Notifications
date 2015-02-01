@@ -1,9 +1,10 @@
+"use strict";
 
 /**
  * Used to store and retrieve user preferences
  * @return {object} preferences object
  */
-var preferences = new function () {
+var preferences = function () {
 
 	this.cache = {};
 
@@ -31,7 +32,7 @@ var preferences = new function () {
 	this.setAll = function (value) {
 		var def = $.Deferred();
 		var data = {};
-		data["preferences"] = value;
+		data.preferences = value;
 		chrome.storage.sync.set(data, function () {
 			preferences.cache = data;
 			def.resolve();

@@ -1,9 +1,10 @@
+"use strict";
 
 /**
  * Used to communicate with TFS
  * @return {[type]}
  */
-var tfs = new function () {
+var tfs = function () {
 
 	var timerId = 0;
 	var hasUnreadItems = false;
@@ -44,10 +45,12 @@ var tfs = new function () {
 			.fail(function () {
 				errorCount++;
 				
-				if (errorCount == 10)
+				if (errorCount === 10) {
 					tfs.stop(false);
-				else
+				}
+				else {
 					showOffline("off");
+				}
 			});
 
 	};
@@ -58,8 +61,9 @@ var tfs = new function () {
 	this.start = function (byUser) {
 		if (tfs.isOnline) {
 			
-			if (byUser)
- 				preferences.set("active", true);
+			if (byUser) {
+				preferences.set("active", true);
+			}
 
 			tfs.load();
 
@@ -77,11 +81,12 @@ var tfs = new function () {
 	 * @return {null}
 	 */
 	this.stop = function (byUser) {
- 		window.clearInterval(timerId);
- 		showOffline();
+		window.clearInterval(timerId);
+		showOffline();
 
- 		if (byUser)
- 			preferences.set("active", false);
+		if (byUser) {
+			preferences.set("active", false);
+		}
 	};
 
 	/**
@@ -91,10 +96,12 @@ var tfs = new function () {
 	this.readItems = function () {
 		hasUnreadItems = false;
 
-		if (tfs.isOnline)
+		if (tfs.isOnline) {
 			showOnline();
-		else
-			showOffline();			
+		}
+		else {
+			showOffline();
+		}
 	};
 
 	/**
@@ -108,7 +115,7 @@ var tfs = new function () {
 		if (checkIn.changesetId > preferences.get("changeset")) {
 			showUnreadItems();
 			showNotifications(checkIn);
-		};
+		}
 
 		//set the cache
 		tfs.data = data;
@@ -125,8 +132,9 @@ var tfs = new function () {
 		tfs.isOnline = true;
 
 		//only change the background if we don't have unread items
-		if (!hasUnreadItems)
-			chrome.browserAction.setBadgeBackgroundColor({ color: "#0f0" });	
+		if (!hasUnreadItems) {
+			chrome.browserAction.setBadgeBackgroundColor({ color: "#0f0" });
+		}
 	};
 
 	/**
@@ -137,15 +145,16 @@ var tfs = new function () {
 		tfs.isOnline = false;
 
 		//only change the background if we don't have unread items
-		if (!hasUnreadItems)
-			chrome.browserAction.setBadgeBackgroundColor({ color: "#f00" });	
+		if (!hasUnreadItems) {
+			chrome.browserAction.setBadgeBackgroundColor({ color: "#f00" });
+		}
 	};
 
 	/**
 	 * Change the badge to show that unread items are available
 	 */
 	var showUnreadItems = function () {
-		chrome.browserAction.setBadgeBackgroundColor({ color: "#00f" });	
+		chrome.browserAction.setBadgeBackgroundColor({ color: "#00f" });
 		hasUnreadItems = true;
 	};
 
@@ -158,13 +167,13 @@ var tfs = new function () {
 		//someone in the notification users list
 		var csvUsers = preferences.get("notificationUsers");
 		if (csvUsers !== undefined || csvUsers !== "") {
-			var users = csvUsers.split(',');
+			var users = csvUsers.split(",");
 			var checkInName = checkIn.checkedInBy.displayName.toLowerCase();
 			var match = contains(checkInName, users);
 
 			if (match) {
 				chrome.notifications.getPermissionLevel(function (level) {
-					if (level == "granted"){
+					if (level === "granted"){
 						var options = {
 							type: "basic",
 							iconUrl: checkIn.checkedInBy.imageUrl,
@@ -178,7 +187,7 @@ var tfs = new function () {
 						chrome.notifications.create("", options, function (notificationId) {
 							var url = checkIn.url.replace("_apis/tfvc", "_versionControl").replace("changesets", "changeset");
 							tfs.notifications[notificationId] = { changesetUrl: url };
-						});		
+						});
 					}
 				});
 			}
@@ -193,28 +202,27 @@ var tfs = new function () {
 	 * @return {bool} True if item exists, otherwise false
 	 */
 	function contains(item, obj) {
-	    for (var i = 0; i < obj.length; i++) {
-	        if (obj[i].trim() === item.trim()) {
-	            return true;
-	        }
-	    }
-	    return false;
+		for (var i = 0; i < obj.length; i++) {
+			if (obj[i].trim() === item.trim()) {
+				return true;
+			}
+		}
+		return false;
 	}
-	
+		
 };
 
 /**
  * Listens for a button being clicked on a notification
  * @param  {string} notificationId ID of the notification the button was clicked on
- * @param  {integer} buttonIndex Index of the button that was clicked
  */
-chrome.notifications.onButtonClicked.addListener(function (notificationId, buttonIndex) {
+chrome.notifications.onButtonClicked.addListener(function (notificationId) {
 
 	var notification = tfs.notifications[notificationId];
 
 	if (notification !== undefined) {
 		//open a browser window to the url stored; notification.changesetUrl
-		chrome.tabs.create({ url: notification.changesetUrl }, function(tab) {
+		chrome.tabs.create({ url: notification.changesetUrl }, function() {
 		});
 	}
 
@@ -223,8 +231,8 @@ chrome.notifications.onButtonClicked.addListener(function (notificationId, butto
 /**
  * Listens for a notification being closed and removes it from the notification array
  */
-chrome.notifications.onClosed.addListener(function (notificationId, byUser) {
+chrome.notifications.onClosed.addListener(function (notificationId) {
 
-	delete tfs.notifications[notificationId];	
+	delete tfs.notifications[notificationId];
 
 });
